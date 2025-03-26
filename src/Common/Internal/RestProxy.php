@@ -25,7 +25,7 @@
 
 namespace MicrosoftAzure\Storage\Common\Internal;
 
-use MicrosoftAzure\Storage\Common\Internal\IMiddleware;
+use MicrosoftAzure\Storage\Common\Middlewares\IMiddleware;
 
 /**
  * Base class for all REST proxies.
@@ -54,7 +54,7 @@ class RestProxy
      *
      * @param Serialization\ISerializer $dataSerializer The data serializer.
      */
-    public function __construct(Serialization\ISerializer $dataSerializer = null)
+    public function __construct(Serialization\ISerializer|null $dataSerializer = null)
     {
         $this->middlewares    = array();
         $this->dataSerializer = $dataSerializer;
