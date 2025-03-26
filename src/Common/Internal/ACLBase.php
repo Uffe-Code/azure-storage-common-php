@@ -227,9 +227,9 @@ abstract class ACLBase
     public function removeSignedIdentifier($id)
     {
         Validate::canCastAsString($id, 'id');
-        //var_dump($this->signedIdentifiers);
-        for ($i = 0; $i < count($this->signedIdentifiers); ++$i) {
-            if ($this->signedIdentifiers[$i]->getId() == $id) {
+
+        foreach ($this->signedIdentifiers as $i => $iValue) {
+            if ($iValue->getId() == $id) {
                 array_splice($this->signedIdentifiers, $i, 1);
                 return true;
             }

@@ -26,6 +26,7 @@
 namespace MicrosoftAzure\Storage\Common\Internal;
 
 use Psr\Http\Message\StreamInterface;
+use Random\RandomException;
 
 /**
  * Utilities for the project
@@ -226,10 +227,11 @@ class Utilities
 
         foreach ($var as $value) {
             if ((gettype($value) == 'object')
-                && (get_class($value) == 'SimpleXMLElement')
-            ) {
-                return (array) $var;
-            } elseif (!is_array($value)) {
+                && (get_class($value) == 'SimpleXMLElement')) {
+                    return (array) $var;
+                }
+
+            if (!is_array($value)) {
                 return array($var);
             }
         }
@@ -546,6 +548,7 @@ class Utilities
      * com_create_guid() is only available for Windows.
      *
      * @return string A new GUID.
+     * @throws RandomException
      */
     public static function getGuid()
     {
@@ -553,19 +556,19 @@ class Utilities
 
         return sprintf(
             '%04x%04x-%04x-%04x-%02x%02x-%04x%04x%04x',
-            mt_rand(0, 65535),
-            mt_rand(0, 65535),          // 32 bits for "time_low"
-            mt_rand(0, 65535),          // 16 bits for "time_mid"
-            mt_rand(0, 4096) + 16384,   // 16 bits for "time_hi_and_version", with
+            random_int(0, 65535),
+            random_int(0, 65535),          // 32 bits for "time_low"
+            random_int(0, 65535),          // 16 bits for "time_mid"
+            random_int(0, 4096) + 16384,   // 16 bits for "time_hi_and_version", with
                                         // the most significant 4 bits being 0100
                                         // to indicate randomly generated version
-            mt_rand(0, 64) + 128,       // 8 bits  for "clock_seq_hi", with
+            random_int(0, 64) + 128,       // 8 bits  for "clock_seq_hi", with
                                         // the most significant 2 bits being 10,
                                         // required by version 4 GUIDs.
-            mt_rand(0, 255),            // 8 bits  for "clock_seq_low"
-            mt_rand(0, 65535),          // 16 bits for "node 0" and "node 1"
-            mt_rand(0, 65535),          // 16 bits for "node 2" and "node 3"
-            mt_rand(0, 65535)           // 16 bits for "node 4" and "node 5"
+            random_int(0, 255),            // 8 bits  for "clock_seq_low"
+            random_int(0, 65535),          // 16 bits for "node 0" and "node 1"
+            random_int(0, 65535),          // 16 bits for "node 2" and "node 3"
+            random_int(0, 65535)           // 16 bits for "node 4" and "node 5"
         );
 
         // @codingStandardsIgnoreEnd
@@ -876,7 +879,7 @@ class Utilities
      */
     public static function isDouble($value)
     {
-        return is_numeric($value) && is_double($value + 0);
+        return is_numeric($value) && is_float($value + 0);
     }
 
     /**
