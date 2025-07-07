@@ -53,16 +53,16 @@ class CommonRequestMiddleware extends MiddlewareBase
      * Creates CommonRequestMiddleware with the passed scheme and headers to
      * be added.
      *
-     * @param IAuthScheme $authenticationScheme The authentication scheme.
+     * @param IAuthScheme|null $authenticationScheme The authentication scheme.
      * @param string      $storageAPIVersion    Azure Storage Service API version,
      *                                          like '2016-05-31'.
      * @param string      $serviceSDKVersion    Like '1.0.1' or '1.2.0'.
      * @param array       $headers              The headers to be added.
      */
     public function __construct(
-        IAuthScheme|null $authenticationScheme = null,
-        $storageAPIVersion,
-        $serviceSDKVersion,
+        IAuthScheme|null $authenticationScheme,
+        string $storageAPIVersion,
+        string $serviceSDKVersion,
         array $headers = array()
     ) {
         $this->authenticationScheme = $authenticationScheme;
